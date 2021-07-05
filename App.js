@@ -1,12 +1,25 @@
 import React from 'react';
-import {View, StyleSheet, TouchableOpacity, Text, FlatList} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, Text, FlatList, Modal} from 'react-native';
 import colors from './Colors';
 import tempData from './tempData';
 import ToDoList from './components/ToDoList';
+import { useState } from 'react';
+import AddListModal from './components/AddListModal';
+import 'react-native-gesture-handler';
 
 const App = () => {
+
+  const [addToDoVisible, setAddToDoVisible] = useState(false);
+
   return (
     <View style={styles.container}>
+      <Modal 
+      animationYype="slide" 
+      visible={addToDoVisible}
+      onRequestClose={() => setAddToDoVisible(!addToDoVisible)}>
+        <AddListModal />
+      </Modal>
+
       <View style={styles.wrapper}>
         <View style={styles.divider} />
         <Text style={styles.title}>
@@ -16,7 +29,9 @@ const App = () => {
       </View>
 
       <View style={styles.tasksField}>
-        <TouchableOpacity>
+        <TouchableOpacity 
+        style={styles.addList} 
+        onPress={() => setAddToDoVisible(!addToDoVisible)}>
           <Text style={styles.plus}>+</Text>
         </TouchableOpacity>
       </View>
@@ -71,7 +86,6 @@ const styles = StyleSheet.create({
   },
   tasks: {
     height: 275,
-    paddingLeft:32
   },
 })
 
