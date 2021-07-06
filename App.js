@@ -17,7 +17,7 @@ const App = () => {
       animationYype="slide" 
       visible={addToDoVisible}
       onRequestClose={() => setAddToDoVisible(!addToDoVisible)}>
-        <AddListModal />
+        <AddListModal  state={setAddToDoVisible}/>
       </Modal>
 
       <View style={styles.wrapper}>
