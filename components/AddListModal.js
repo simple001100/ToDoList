@@ -11,7 +11,8 @@ import colors from '../Colors';
 import tempData from '../tempData';
 import {useState} from 'react';
 
-const AddListModal = props => {
+const AddListModal = (props) => {
+
   const [name, setName] = useState('Untitled');
   const [color, setColor] = useState(colors.backgroundColors[0]);
 

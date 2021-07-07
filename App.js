@@ -5,11 +5,13 @@ import tempData from './tempData';
 import ToDoList from './components/ToDoList';
 import { useState } from 'react';
 import AddListModal from './components/AddListModal';
+import ManageToDoModal from './components/ToDoList';
 import 'react-native-gesture-handler';
 
 const App = () => {
 
   const [addToDoVisible, setAddToDoVisible] = useState(false);
+  const [ManageToDoVisible, setManageToDoVisible] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -17,7 +19,7 @@ const App = () => {
       animationYype="slide" 
       visible={addToDoVisible}
       onRequestClose={() => setAddToDoVisible(!addToDoVisible)}>
-        <AddListModal  state={setAddToDoVisible}/>
+        <AddListModal  state={setAddToDoVisible} colors={colors}/>
       </Modal>
 
       <View style={styles.wrapper}>
