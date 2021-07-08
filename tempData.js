@@ -1,5 +1,6 @@
 const tempData =[
     {
+        id: 1,
         name: "Plan a Trip",
         color: "#33CAFF",
         todos: [
@@ -18,37 +19,39 @@ const tempData =[
         ]
     },
     {
+        id: 2,
         name: "Shop list",
         color: "#B9C0C3",
         todos: [
             {
-                title: "Book flight",
+                title: "Banana",
                 completed: false,
             },
             {
-                title: "Passport check",
+                title: "Milk",
                 completed: false,
             },
             {
-                title: "Reserve hotel room",
+                title: "apple",
                 completed: false,
             },
         ]
     },
     {
+        id: 3,
         name: "Birthday paty",
         color: "#33CAFF",
         todos: [
             {
-                title: "Book flight",
+                title: "Cake",
                 completed: false,
             },
             {
-                title: "Passport check",
+                title: "sweets",
                 completed: true,
             },
             {
-                title: "Reserve hotel room",
+                title: "presents",
                 completed: false,
             },
         ]

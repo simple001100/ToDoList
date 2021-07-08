@@ -10,32 +10,38 @@ const ToDoList = ({list}) => {
 
   const [ManageToDoVisible, setManageToDoVisible] = useState(false);
 
+  const updateManageToDoModal = () => {
+    return(ManageToDoModal);
+  }
+
   return (
-    <TouchableOpacity
-      style={[styles.container, {backgroundColor: list.color}]}
-      onPress={() => setManageToDoVisible(!ManageToDoVisible)}>
+    <View>
       <Modal
         animationYype="slide"
         visible={ManageToDoVisible}
         onRequestClose={() => setManageToDoVisible(!ManageToDoVisible)}>
-        <ManageToDoModal state={setManageToDoVisible} data={list} />
+        <ManageToDoModal stateClose={setManageToDoVisible} data={list} update={updateManageToDoModal}/>
       </Modal>
 
-      <Text style={styles.listTitle} numberOfLines={1}>
-        {list.name}
-      </Text>
+      <TouchableOpacity
+        style={[styles.container, {backgroundColor: list.color}]}
+        onPress={() => setManageToDoVisible(!ManageToDoVisible)}>
+        <Text style={styles.listTitle} numberOfLines={1}>
+          {list.name}
+        </Text>
 
-      <View>
-        <View style={styles.wrapperCompleted}>
-          <Text style={styles.count}>{completedCount}</Text>
-          <Text style={styles.subtitle}>Completed</Text>
+        <View>
+          <View style={styles.wrapperCompleted}>
+            <Text style={styles.count}>{completedCount}</Text>
+            <Text style={styles.subtitle}>Completed</Text>
+          </View>
+          <View style={styles.wrapperRemaining}>
+            <Text style={styles.count}>{remainingCount}</Text>
+            <Text style={styles.subtitle}>Remaining</Text>
+          </View>
         </View>
-        <View style={styles.wrapperRemaining}>
-          <Text style={styles.count}>{remainingCount}</Text>
-          <Text style={styles.subtitle}>Remaining</Text>
-        </View>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </View>
   );
 };
 

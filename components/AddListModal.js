@@ -8,8 +8,8 @@ import {
   TextInput,
 } from 'react-native';
 import colors from '../Colors';
-import tempData from '../tempData';
 import {useState} from 'react';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const AddListModal = (props) => {
 
@@ -17,13 +17,13 @@ const AddListModal = (props) => {
   const [color, setColor] = useState(colors.backgroundColors[0]);
 
   const createToDo = () => {
-    tempData.push({
-      name: name,
-      color: color,
+    props.data = [...props.data, {
+      id: ++props.data.length,
+      name,
+      color,
       todos: [],
-    })
-
-    props.state(false);
+    }]
+    props.stateClose(false);
   }
 
   const colorsList = () => {
@@ -39,11 +39,11 @@ const AddListModal = (props) => {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
+    <KeyboardAvoidingView style={styles.container}>
       <TouchableOpacity
         style={styles.wrapper}
-        onPress={() => props.state(false)}>
-        <Text style={styles.close}>Close</Text>
+        onPress={() => props.stateClose(false)}>
+        <Icon name='close' size={26} color={colors.black} />
       </TouchableOpacity>
 
       <View style={styles.inputContainer}>

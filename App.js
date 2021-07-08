@@ -6,12 +6,11 @@ import ToDoList from './components/ToDoList';
 import { useState } from 'react';
 import AddListModal from './components/AddListModal';
 import ManageToDoModal from './components/ToDoList';
-import 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const App = () => {
 
   const [addToDoVisible, setAddToDoVisible] = useState(false);
-  const [ManageToDoVisible, setManageToDoVisible] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -19,7 +18,7 @@ const App = () => {
       animationYype="slide" 
       visible={addToDoVisible}
       onRequestClose={() => setAddToDoVisible(!addToDoVisible)}>
-        <AddListModal  state={setAddToDoVisible} colors={colors}/>
+        <AddListModal  stateClose={setAddToDoVisible} data={tempData}/>
       </Modal>
 
       <View style={styles.wrapper}>
@@ -34,14 +33,14 @@ const App = () => {
         <TouchableOpacity 
         style={styles.addList} 
         onPress={() => setAddToDoVisible(!addToDoVisible)}>
-          <Text style={styles.plus}>+</Text>
+          <Icon name='plus' size={32} color={colors.blue} />
         </TouchableOpacity>
       </View>
 
       <View style={styles.tasks}>
         <FlatList 
           data={tempData} 
-          keyExtractor={item => item.name} 
+          keyExtractor={item => item.id} 
           horizontal={true} 
           showsHorizontalScrollIndicator={false}
           renderItem={({item}) => (
