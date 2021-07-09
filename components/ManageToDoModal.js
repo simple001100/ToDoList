@@ -7,17 +7,20 @@ import {
   View,
   TextInput,
   KeyboardAvoidingView,
+  Keyboard
 } from 'react-native';
 import colors from '../Colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {useState, useEfect} from 'react';
+import {useState} from 'react';
 
 const ManageToDoModal = props => {
-  const taskCount = props.data.todos.length;
-  const completedCount = props.data.todos.filter(todo => todo.completed).length;
+  props.setListTask(props.data);
+  const listTask = props.listTask;
+  const taskCount = listTask.todos.length;
+  const completedCount = listTask.todos.filter(todo => todo.completed).length;
 
-  const uncompetedIcon= (
+  const uncompetedIcon = (
     <Ionicons
       name="square-outline"
       size={24}
@@ -25,6 +28,7 @@ const ManageToDoModal = props => {
       style={{width: 32}}
     />
   );
+
   const competedIcon = (
     <Ionicons
       name="checkbox-outline"
@@ -34,23 +38,23 @@ const ManageToDoModal = props => {
     />
   );
 
-  const [task, setTask] = useState('Untitled');
+  const toggleCompleted = index => {
+    let data = listTask;
+    data.todos[index].completed = !data.todos[index].completed;
 
-  const addTask = () => {
-    props.data.todos = [...props.data.todos, {
-      title: task,
-      completed: false,
-    }];
+    props.updateList(data);
   };
 
   const iconCompleted = item => {
     return item.completed ? competedIcon : uncompetedIcon;
   };
 
-  const todoList = item => {
+  const todoList = (item, index) => {
     return (
       <View style={styles.todoContainer}>
-        <TouchableOpacity>{iconCompleted(item)}</TouchableOpacity>
+        <TouchableOpacity onPress={() => toggleCompleted(index)}>
+          {iconCompleted(item)}
+        </TouchableOpacity>
 
         <Text
           style={[
@@ -66,6 +70,23 @@ const ManageToDoModal = props => {
     );
   };
 
+  const [newTodo, setNewTodo] = useState("");
+
+  const addTask = () => {
+    if (newTodo == "") setNewTodo("Untitled");
+    listTask.todos = [
+      ...listTask.todos,
+      {
+        title: newTodo,
+        completed: false,
+      },
+    ];
+
+    props.updateList(listTask);
+    setNewTodo("");
+    Keyboard.dismiss();
+  };
+
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -78,10 +99,10 @@ const ManageToDoModal = props => {
         style={[
           styles.section,
           styles.header,
-          {borderBottomColor: props.data.color},
+          {borderBottomColor: listTask.color},
         ]}>
         <View>
-          <Text style={styles.title}>{props.data.name}</Text>
+          <Text style={styles.title}>{listTask.name}</Text>
           <Text style={styles.taskCount}>
             {completedCount} of {taskCount} tasks
           </Text>
@@ -90,8 +111,8 @@ const ManageToDoModal = props => {
 
       <View style={[styles.section, {flex: 3}]}>
         <FlatList
-          data={props.data.todos}
-          renderItem={({item}) => todoList(item)}
+          data={listTask.todos}
+          renderItem={({item, index}) => todoList(item, index)}
           keyExtractor={item => item.title}
           contentContainerStyle={{paddingHorizontal: 32, paddingVertical: 64}}
           showsVerticalScrollIndicator={false}
@@ -100,12 +121,13 @@ const ManageToDoModal = props => {
 
       <KeyboardAvoidingView style={[styles.section, styles.footer]}>
         <TextInput
-          style={[styles.input, {borderColor: props.data.color}]}
-          onChangeText={text => setTask(text)}
+          style={[styles.input, {borderColor: listTask.color}]}
+          onChangeText={text => setNewTodo(text)}
+          value={newTodo}
         />
         <TouchableOpacity
           style={[styles.addToDo, {backgroundColor: props.data.color}]}
-          onPress={addTask}>
+          onPress={() => addTask()}>
           <FontAwesome name="plus" size={16} color={colors.white} />
         </TouchableOpacity>
       </KeyboardAvoidingView>

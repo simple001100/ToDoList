@@ -4,15 +4,17 @@ import colors from '../Colors';
 import ManageToDoModal from './ManageToDoModal';
 import {useState} from 'react';
 
-const ToDoList = ({list}) => {
-  const completedCount = list.todos.filter(todo => todo.completed).length;
-  const remainingCount = list.todos.length - completedCount;
+const ToDoList = (props) => {
+  let data = props.list;
+
+  const [listTask, setListTask] = useState(data);
+
+  const completedCount = data.todos.filter(todo => todo.completed).length;
+  const remainingCount = data.todos.length - completedCount;
 
   const [ManageToDoVisible, setManageToDoVisible] = useState(false);
 
-  const updateManageToDoModal = () => {
-    return(ManageToDoModal);
-  }
+  const updateData = props.updateData;
 
   return (
     <View>
@@ -20,14 +22,14 @@ const ToDoList = ({list}) => {
         animationYype="slide"
         visible={ManageToDoVisible}
         onRequestClose={() => setManageToDoVisible(!ManageToDoVisible)}>
-        <ManageToDoModal stateClose={setManageToDoVisible} data={list} update={updateManageToDoModal}/>
+        <ManageToDoModal stateClose={setManageToDoVisible} data={data} updateList={props.updateList} setListTask={setListTask} listTask={listTask}/>
       </Modal>
 
       <TouchableOpacity
-        style={[styles.container, {backgroundColor: list.color}]}
+        style={[styles.container, {backgroundColor: data.color}]}
         onPress={() => setManageToDoVisible(!ManageToDoVisible)}>
         <Text style={styles.listTitle} numberOfLines={1}>
-          {list.name}
+          {data.name}
         </Text>
 
         <View>

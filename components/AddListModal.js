@@ -11,20 +11,18 @@ import colors from '../Colors';
 import {useState} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const AddListModal = (props) => {
+const AddListModal = props => {
 
   const [name, setName] = useState('Untitled');
   const [color, setColor] = useState(colors.backgroundColors[0]);
 
   const createToDo = () => {
-    props.data = [...props.data, {
-      id: ++props.data.length,
-      name,
-      color,
-      todos: [],
-    }]
+    const list = {name, color};
+
+    props.addList(list);
+
     props.stateClose(false);
-  }
+  };
 
   const colorsList = () => {
     return colors.backgroundColors.map(item => {
@@ -43,7 +41,7 @@ const AddListModal = (props) => {
       <TouchableOpacity
         style={styles.wrapper}
         onPress={() => props.stateClose(false)}>
-        <Icon name='close' size={26} color={colors.black} />
+        <Icon name="close" size={26} color={colors.black} />
       </TouchableOpacity>
 
       <View style={styles.inputContainer}>
